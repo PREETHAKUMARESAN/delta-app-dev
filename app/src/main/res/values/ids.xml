@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <item name="countView" type="id">textview</item>
+    <item name="incrButt" type="id">incrementbtn</item>
+    <item name="layoutRel" type="id">layout</item>
+    <item name="resetButt" type="id">resetbtn</item>
+</resources>
