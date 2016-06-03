@@ -1,6 +1,8 @@
 package com.example.preethakumaresan.myapplication;
 
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -66,10 +68,13 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        SharedPreferences shared = getSharedPreferences("colorCount", Context.MODE_PRIVATE);
+
+        count = shared.getInt("count", 0);
 
         myLayout = (RelativeLayout) findViewById(R.id.layoutRel);
 
-        myLayout.setBackgroundColor(Color.rgb(red, green, blue));
+        myLayout.setBackgroundColor(Color.rgb(red,green,blue));
 
 
         countView = (TextView) findViewById(R.id.countView);
@@ -77,8 +82,7 @@ public class MainActivity extends AppCompatActivity {
         incrButt = (Button) findViewById(R.id.incrButt);
         resetButt = (Button) findViewById(R.id.resetButt);
 
-
-        countView.setText(String.valueOf(count));
+        // countView.setText(String.valueOf(count));
 
         changeFontColor();
 
@@ -86,8 +90,6 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 colorSwitch();
-
-
                 incrementCount();
             }
         });
@@ -106,8 +108,6 @@ public class MainActivity extends AppCompatActivity {
        @Override
        protected void onResume(){
            super.onResume();
-
-
        }
 
        @Override
@@ -115,12 +115,14 @@ public class MainActivity extends AppCompatActivity {
         super.onSaveInstanceState(outState);
         outState.putInt("count",count);
 
+
         }
 
         @Override
         protected void onRestoreInstanceState(Bundle savedInstanceState){
             super.onRestoreInstanceState(savedInstanceState);
             count= savedInstanceState.getInt("count");
+            countView.setText(String.valueOf(count));
         }
 }
 
