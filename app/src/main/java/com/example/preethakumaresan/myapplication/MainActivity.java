@@ -17,6 +17,7 @@ import java.util.Random;
 public class MainActivity extends AppCompatActivity {
 
     private RelativeLayout myLayout;
+    public static final String MyPREFERENCES = "MyPrefs" ;
 
     Button incrButt;
     private int red;
@@ -62,15 +63,15 @@ public class MainActivity extends AppCompatActivity {
         count += 1;
         countView.setText(String.valueOf(count));
     }
-
-
+   SharedPreferences sharedpreferences;
+   
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        SharedPreferences shared = getSharedPreferences("colorCount", Context.MODE_PRIVATE);
+        SharedPreferences shared = getSharedPreferences(MyPREFERENCES, Context.MODE_PRIVATE);
 
-        count = shared.getInt("count", 0);
+        count = shared.getInt("count",count);
 
         myLayout = (RelativeLayout) findViewById(R.id.layoutRel);
 
@@ -82,8 +83,7 @@ public class MainActivity extends AppCompatActivity {
         incrButt = (Button) findViewById(R.id.incrButt);
         resetButt = (Button) findViewById(R.id.resetButt);
 
-        // countView.setText(String.valueOf(count));
-
+       
         changeFontColor();
 
         incrButt.setOnClickListener(new View.OnClickListener() {
@@ -108,6 +108,7 @@ public class MainActivity extends AppCompatActivity {
        @Override
        protected void onResume(){
            super.onResume();
+           countView.setText(String.valueOf(count));
        }
 
        @Override
@@ -117,6 +118,17 @@ public class MainActivity extends AppCompatActivity {
 
 
         }
+        
+        @Override
+       protected void onStop() {
+          super.onStop();
+           SharedPreferences sharedpreferences = getSharedPreferences(MyPREFERENCES, Context.MODE_PRIVATE);
+           SharedPreferences.Editor editor = sharedpreferences.edit();
+           editor.putInt("count",count);
+           editor.apply();
+           Toast.makeText(MainActivity.this,"It has been saved!!", Toast.LENGTH_SHORT).show();
+           countView.setText(String.valueOf(count));
+       }
 
         @Override
         protected void onRestoreInstanceState(Bundle savedInstanceState){
